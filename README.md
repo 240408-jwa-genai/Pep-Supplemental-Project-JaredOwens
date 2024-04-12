@@ -1,3 +1,4 @@
+
 # Planetarium
 
 The Planetarium is a web service that allows Astronomers (Users) to record planets and associated moons to a central database as they map the night sky. Users must register an account to participate, and those who do will be able to associate themselves with the planets and moons they add to the database. Much of the infrastructure has already been created: it is your job to finish writing the implementation code for this application.

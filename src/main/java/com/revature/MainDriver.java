@@ -34,8 +34,9 @@ public class MainDriver {
                 The userIsActive boolean is used to control our code loop. While the user is "active" the code
                 will loop. When prompted, the user can enter "q" to quit the program
              */
-            boolean userIsActive = true;
-            while (userIsActive){
+            boolean logInScreen = true;
+            boolean loggedIn = false;
+            do {
                 System.out.println("\nHello! Welcome to the Planetarium! Enter 1 to register an account, 2 to log in, q to quit");
                 String userChoice = scanner.nextLine();
                 if (userChoice.equals("1")){
@@ -58,7 +59,10 @@ public class MainDriver {
                     potentialUser.setPassword(potentialPassword);
 
                     // pass the data into the service layer for validation
-                    userController.register(potentialUser);
+                    if(userController.register(potentialUser)){
+                        logInScreen = false;
+                        loggedIn = true;
+                    }
 
                 } else if (userChoice.equals("2")){
                     System.out.println("\nYou chose to log in!");
@@ -72,17 +76,36 @@ public class MainDriver {
                     credentials.setUsername(username);
                     credentials.setPassword(password);
 
-                    userController.authenticate(credentials);
-
-
+                    if (userController.authenticate(credentials)){
+                        logInScreen = false;
+                        loggedIn = true;
+                    }
                 } else if (userChoice.equals("q")) {
                     System.out.println("Goodbye!");
-                    userIsActive = false;
+                    logInScreen = false;
                 } else {
                     System.out.println("Invalid choice, please try again");
                 }
+            } while (logInScreen);
+            if(loggedIn){
+                boolean active = true;
+                do {
+                    System.out.println("\nEnter 1 to register a Planet, 2 to register a Moon, q to quit");
+                    String userChoice = scanner.nextLine();
+                    if (userChoice.equals("1")){
+                        System.out.println("planet stuff goes here");
+                    }
+                    else if (userChoice.equals("2")){
+                        System.out.println("moon stuff goes here");
+                    }
+                    else if (userChoice.equals("q")){
+                        active = false;
+                    }
+                    else {
+                        System.out.println("Invalid choice, please try again");
+                    }
+                }while(active);
             }
-
         }
 
 

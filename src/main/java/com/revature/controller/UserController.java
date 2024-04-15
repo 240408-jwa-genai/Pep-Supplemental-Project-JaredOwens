@@ -14,18 +14,20 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	public void authenticate(UsernamePasswordAuthentication loginRequestData) {
+	public boolean authenticate(UsernamePasswordAuthentication loginRequestData) {
 		// since we are checking the credentials against the database we can simply pass them to the service layer
 		User possibleUser = userService.authenticate(loginRequestData);
 		if (possibleUser.getId() != 0){
 			MainDriver.loggedInUserId = possibleUser.getId();
 			System.out.println(String.format("Hello %s! Welcome to the Planetarium", possibleUser.getUsername()));
+			return true;
 		} else {
 			System.out.println("Username/Password combo invalid, please try again");
+			return false;
 		}
 	}
 
-	public void register(User registerRequestData) {
+	public boolean register(User registerRequestData) {
 		/*
 			Because the controller is only responsible for getting user input and returning messages/data
 			to the user, we will simply pass the User data into the service layer, and then depending on
@@ -42,8 +44,10 @@ public class UserController {
 		User userResponse = userService.register(registerRequestData);
 		if (userResponse.getId() != 0){
 			System.out.println("Registration successful! Enjoy using the Planetarium!");
+			return true;
 		} else {
 			System.out.println("Registration failed: please double check your username and password and try again.");
+			return false;
 		}
 	}
 

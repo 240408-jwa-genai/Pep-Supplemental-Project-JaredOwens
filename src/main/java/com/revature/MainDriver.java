@@ -2,10 +2,14 @@ package com.revature;
 
 import java.util.Scanner;
 
+import com.revature.controller.PlanetController;
 import com.revature.controller.UserController;
+import com.revature.models.Planet;
 import com.revature.models.User;
 import com.revature.models.UsernamePasswordAuthentication;
+import com.revature.repository.PlanetDao;
 import com.revature.repository.UserDao;
+import com.revature.service.PlanetService;
 import com.revature.service.UserService;
 import com.revature.utilities.ConnectionUtil;
 
@@ -58,10 +62,13 @@ public class MainDriver {
                     potentialUser.setUsername(potentialUsername);
                     potentialUser.setPassword(potentialPassword);
 
+                    int potentialId = userController.register(potentialUser);
                     // pass the data into the service layer for validation
-                    if(userController.register(potentialUser)){
+                    if(potentialId != -1){
                         logInScreen = false;
                         loggedIn = true;
+                        loggedInUserId = potentialId;
+                        System.out.println("User ID is: " + loggedInUserId);
                     }
 
                 } else if (userChoice.equals("2")){
@@ -76,9 +83,12 @@ public class MainDriver {
                     credentials.setUsername(username);
                     credentials.setPassword(password);
 
-                    if (userController.authenticate(credentials)){
+                    int userId = userController.authenticate(credentials);
+                    if(userId != -1){
                         logInScreen = false;
                         loggedIn = true;
+                        loggedInUserId = userId;
+                        //System.out.println("User ID is: " + loggedInUserId);
                     }
                 } else if (userChoice.equals("q")) {
                     System.out.println("Goodbye!");
@@ -89,11 +99,29 @@ public class MainDriver {
             } while (logInScreen);
             if(loggedIn){
                 boolean active = true;
+                PlanetDao planetDao = new PlanetDao();
+                PlanetService planetService = new PlanetService(planetDao);
+                PlanetController planetController = new PlanetController(planetService);
+
                 do {
-                    System.out.println("\nEnter 1 to register a Planet, 2 to register a Moon, q to quit");
+                    System.out.println("\nEnter 1 to work with Planets, 2 to work with Moons q to quit");
                     String userChoice = scanner.nextLine();
                     if (userChoice.equals("1")){
-                        System.out.println("planet stuff goes here");
+                        System.out.println("\nEnter 1 to display Planets you have added, 2 to register a Planet, 3 to Remove a Planet, q to quit");
+                        String selection = scanner.nextLine();
+                        if (selection.equals("1")){
+                            //display Planets by User(id?)
+                            planetController.getAllPlanets(loggedInUserId);
+                        }
+                        else if (selection.equals("2")){
+                            //register a Planet
+                        }
+                        else if (selection.equals("3")){
+                            // remove a planet
+                        }
+                        else if (selection.equals("q")){
+                            active = false;
+                        }
                     }
                     else if (userChoice.equals("2")){
                         System.out.println("moon stuff goes here");

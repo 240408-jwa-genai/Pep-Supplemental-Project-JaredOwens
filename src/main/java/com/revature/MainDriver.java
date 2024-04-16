@@ -1,5 +1,6 @@
 package com.revature;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.revature.controller.PlanetController;
@@ -111,14 +112,17 @@ public class MainDriver {
                         String selection = scanner.nextLine();
                         if (selection.equals("1")){
                             //display Planets by User(id?)
-                            planetController.getAllPlanets(loggedInUserId);
+                            List<Planet> plantesRetrieved = planetController.getAllPlanets(loggedInUserId);
+                            for(Planet planet : plantesRetrieved){
+                                System.out.println(planet);
+                            }
                         }
                         else if (selection.equals("2")){
                             //register a Planet
                             System.out.println("REPLACE THIS WITH USER INPUT");
-                            //mocking user input for a planet
+                            //TODO:
+                            //mocking user input for a planet -- implement into a console
                             Planet planetToRegister = new Planet();
-                            //planetToRegister.setId(unsure what to put here...);
                             planetToRegister.setName("Test Planet 2");
                             planetToRegister.setOwnerId(loggedInUserId);
                             planetController.createPlanet(loggedInUserId, planetToRegister);

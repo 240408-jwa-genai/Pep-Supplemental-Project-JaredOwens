@@ -3,6 +3,8 @@ package com.revature.controller;
 import com.revature.models.Planet;
 import com.revature.service.PlanetService;
 
+import java.util.List;
+
 public class PlanetController {
 	
 	private PlanetService planetService;
@@ -11,8 +13,8 @@ public class PlanetController {
 		this.planetService = planetService;
 	}
 
-	public void getAllPlanets(int currentUserId) {
-		planetService.getAllPlanets();
+	public List<Planet> getAllPlanets(int currentUserId) {
+		return planetService.getAllPlanets(currentUserId);
 	}
 
 	public void getPlanetByName(int currentUserId, String name) {
@@ -28,7 +30,7 @@ public class PlanetController {
 		planetService.createPlanet(currentUserId, planet);
 	}
 
-	public void deletePlanet(int currentUserId, int id) {
-		// TODO: implement
+	public void deletePlanet(int planetId) {
+		planetService.deletePlanetById(planetId);
 	}
 }

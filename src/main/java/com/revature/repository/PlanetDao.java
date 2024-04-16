@@ -2,7 +2,9 @@ package com.revature.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Planet;
@@ -10,18 +12,27 @@ import com.revature.utilities.ConnectionUtil;
 
 public class PlanetDao {
     
-    public List<Planet> getAllPlanets() {
+    public List<Planet> getAllPlanets(int currentUserId) {
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			// craft initial sql
 			String sql = "SELECT * FROM planets WHERE ownerId = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, p.getOwnerId());
+			ps.setInt(1, currentUserId);
 			ps.execute();
-
+			ResultSet rs = ps.getResultSet();
+			List<Planet> planets = new ArrayList<>();
+			while (rs.next()) {
+				Planet planet = new Planet();
+				planet.setId(rs.getInt("id"));
+				planet.setName(rs.getString("name"));
+				planet.setOwnerId(currentUserId);
+				planets.add(planet);
+			}
+			return planets;
 		}catch(SQLException e){
 			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 
 	public Planet getPlanetByName(String planetName) {

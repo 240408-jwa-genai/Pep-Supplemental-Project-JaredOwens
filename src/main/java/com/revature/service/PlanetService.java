@@ -13,9 +13,8 @@ public class PlanetService {
 		this.dao = dao;
 	}
 
-	public List<Planet> getAllPlanets() {
-		return dao.getAllPlanets();
-		//return null;
+	public List<Planet> getAllPlanets(int currentUserId) {
+		return dao.getAllPlanets(currentUserId);
 	}
 
 	public Planet getPlanetByName(int ownerId, String planetName) {

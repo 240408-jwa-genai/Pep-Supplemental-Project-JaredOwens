@@ -137,7 +137,7 @@ public class MainDriver {
                             //TODO:
                             //mocking user input for a planet -- implement into a console
                             Planet planetToRegister = new Planet();
-                            planetToRegister.setName("Test Planet 4");
+                            planetToRegister.setName("Test Planet 8");
                             planetToRegister.setOwnerId(loggedInUserId);
                             planetController.createPlanet(loggedInUserId, planetToRegister);
                         }

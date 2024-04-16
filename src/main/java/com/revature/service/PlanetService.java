@@ -30,9 +30,10 @@ public class PlanetService {
 
 	public void createPlanet(int ownerId, Planet planet) {
 		if(planet.getName().length() <= 30){
-			if(dao.createPlanet(planet) != null){
-				System.out.println(planet);
-				System.out.println("Planet created! Details: " + planet.toString());
+			Planet result = dao.createPlanet(planet);
+			if(result != null){
+//				System.out.println(result);
+				System.out.println("Planet created! Details: " + result.toString());
 			}
 		}
 		else{

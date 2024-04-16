@@ -95,13 +95,21 @@ public class PlanetDao {
 				return null;
 			}
 			else {
-				String sql2 = "INSERT INTO planets (name, ownerId) VALUES (?,?)";
+				String sql2 = "INSERT INTO planets (name, ownerId) VALUES (?,?) returning *";
 //					"SELECT @name " +
 //					"WHERE NOT EXISTS (SELECT * FROM planets WHERE name = @name)";
 				PreparedStatement ps2 = connection.prepareStatement(sql2);
 				ps2.setString(1, p.getName());
 				ps2.setInt(2, p.getOwnerId());
 				ps2.execute();
+				ResultSet rs2 = ps2.getResultSet();
+				if(rs2.next()) {
+					Planet planet = new Planet();
+					planet.setId(rs2.getInt("id"));
+					planet.setName(rs2.getString("name"));
+					planet.setOwnerId(rs2.getInt("ownerId"));
+					return planet;
+				}
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

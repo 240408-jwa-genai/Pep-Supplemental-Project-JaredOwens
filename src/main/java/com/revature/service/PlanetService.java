@@ -14,8 +14,8 @@ public class PlanetService {
 	}
 
 	public List<Planet> getAllPlanets() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getAllPlanets();
+		//return null;
 	}
 
 	public Planet getPlanetByName(int ownerId, String planetName) {
@@ -29,7 +29,7 @@ public class PlanetService {
 	}
 
 	public Planet createPlanet(int ownerId, Planet planet) {
-		// TODO Auto-generated method stub
+		dao.createPlanet(planet);
 		return null;
 	}
 

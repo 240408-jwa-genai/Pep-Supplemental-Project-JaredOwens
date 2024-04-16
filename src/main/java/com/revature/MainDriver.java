@@ -115,6 +115,13 @@ public class MainDriver {
                         }
                         else if (selection.equals("2")){
                             //register a Planet
+                            System.out.println("REPLACE THIS WITH USER INPUT");
+                            //mocking user input for a planet
+                            Planet planetToRegister = new Planet();
+                            //planetToRegister.setId(unsure what to put here...);
+                            planetToRegister.setName("Test Planet 2");
+                            planetToRegister.setOwnerId(loggedInUserId);
+                            planetController.createPlanet(loggedInUserId, planetToRegister);
                         }
                         else if (selection.equals("3")){
                             // remove a planet

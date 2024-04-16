@@ -20,3 +20,6 @@ create table moons(
     name text,
     myPlanetId integer references planets(id)
 );
+
+
+INSERT INTO planets VALUES (1, 'testFromDBeaverPlanet', 2)

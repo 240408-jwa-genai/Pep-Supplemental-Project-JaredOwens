@@ -12,7 +12,7 @@ public class PlanetController {
 	}
 
 	public void getAllPlanets(int currentUserId) {
-		// TODO: implement
+		planetService.getAllPlanets();
 	}
 
 	public void getPlanetByName(int currentUserId, String name) {
@@ -25,6 +25,7 @@ public class PlanetController {
 
 	public void createPlanet(int currentUserId, Planet planet) {
 		// TODO: implement
+		planetService.createPlanet(currentUserId, planet);
 	}
 
 	public void deletePlanet(int currentUserId, int id) {

@@ -108,7 +108,11 @@ public class MainDriver {
                     System.out.println("\nEnter 1 to work with Planets, 2 to work with Moons q to quit");
                     String userChoice = scanner.nextLine();
                     if (userChoice.equals("1")){
-                        System.out.println("\nEnter 1 to display Planets you have added, 2 to register a Planet, 3 to Remove a Planet, q to quit");
+                        System.out.println("\nEnter 1 to display Planets you have added, " +
+                                "2 to display a Planet by Name," +
+                                "3 to display a Planet by ID," +
+                                "4 to register a Planet, " +
+                                "5 to Remove a Planet, q to quit");
                         String selection = scanner.nextLine();
                         if (selection.equals("1")){
                             //display Planets by User(id?)
@@ -117,7 +121,17 @@ public class MainDriver {
                                 System.out.println(planet);
                             }
                         }
-                        else if (selection.equals("2")){
+                        else if(selection.equals("2")){
+                            System.out.println("Enter the name of the Planet you want to display.");
+                            String planetName = scanner.nextLine();
+                            planetController.getPlanetByName(loggedInUserId, planetName);
+                        }
+                        else if(selection.equals("3")){
+                            System.out.println("Enter the id of the Planet you want to display.");
+                            int planetId = Integer.parseInt(scanner.nextLine());
+                            planetController.getPlanetByID(loggedInUserId, planetId);
+                        }
+                        else if (selection.equals("4")){
                             //register a Planet
                             System.out.println("REPLACE THIS WITH USER INPUT");
                             //TODO:
@@ -127,7 +141,7 @@ public class MainDriver {
                             planetToRegister.setOwnerId(loggedInUserId);
                             planetController.createPlanet(loggedInUserId, planetToRegister);
                         }
-                        else if (selection.equals("3")){
+                        else if (selection.equals("5")){
                             System.out.println("Enter the ID of the Planet you want to remove.");
                             int planetId = Integer.parseInt(scanner.nextLine());
                             planetController.deletePlanet(planetId);

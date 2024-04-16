@@ -35,22 +35,61 @@ public class PlanetDao {
 		}
 	}
 
-	public Planet getPlanetByName(String planetName) {
-		// TODO: implement
-		return null;			
-	}
-
-	public Planet getPlanetById(int planetId) {
-		// TODO: implement
+	//TODO: Verify the else statement is what catches if the user is verified to see the planet
+	public Planet getPlanetByName(int ownerId, String planetName) {
+		try(Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "SELECT * FROM planets WHERE name = ? AND ownerId = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, planetName);
+			ps.setInt(2, ownerId);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				Planet planet = new Planet();
+				planet.setId(rs.getInt("id"));
+				planet.setName(rs.getString("name"));
+				planet.setOwnerId(rs.getInt("ownerId"));
+				return planet;
+			}
+			else{
+				System.out.println("No planet found with that name under your account");
+			}
+		} catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 		return null;
 	}
 
-	// REQUIREMENT: Planets should be “owned” by the user that added it to the Planetarium
-		//this means grabbing current userID
+	//TODO: Verify the else statement is what catches if the user is verified to see the planet
+	public Planet getPlanetById(int planetId, int id) {
+		try(Connection connection = ConnectionUtil.createConnection()) {
+			String sql = "SELECT * FROM planets WHERE id = ? AND ownerId = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, planetId);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				Planet planet = new Planet();
+				planet.setId(rs.getInt("id"));
+				planet.setName(rs.getString("name"));
+				planet.setOwnerId(rs.getInt("ownerId"));
+				return planet;
+			}
+			else{
+				System.out.println("No planet found with that id under your account");
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return null;
+	}
+
+	//TODO: DO NOT ALLOW SAME NAME CREATION
+	//	- make sure of requirement for this but breaks code if you don't anyways
 	public Planet createPlanet(Planet p) {
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			// craft initial sql
 			String sql = "INSERT INTO planets (name, ownerId) VALUES (?,?)";
+//					"SELECT @name " +
+//					"WHERE NOT EXISTS (SELECT * FROM planets WHERE name = @name)";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, p.getName());
 			ps.setInt(2, p.getOwnerId());

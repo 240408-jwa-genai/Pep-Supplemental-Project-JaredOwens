@@ -17,19 +17,19 @@ public class PlanetService {
 		return dao.getAllPlanets(currentUserId);
 	}
 
-	public Planet getPlanetByName(int ownerId, String planetName) {
-		// TODO Auto-generated method stub
-		return null;
+	public void getPlanetByName(int ownerId, String planetName) {
+		// TODO probably change to void and print the planet here
+		Planet planetResult = dao.getPlanetByName(ownerId, planetName);
+		System.out.println(planetResult);
 	}
 
-	public Planet getPlanetById(int ownerId, int planetId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void getPlanetById(int ownerId, int planetId) {
+		Planet planetResult = dao.getPlanetById(ownerId, planetId);
+		System.out.println(planetResult);
 	}
 
 	public void createPlanet(int ownerId, Planet planet) {
 		dao.createPlanet(planet);
-		//TODO: Print the planet that was created
 		System.out.println("Planet created! Details: " + planet.toString());
 	}
 

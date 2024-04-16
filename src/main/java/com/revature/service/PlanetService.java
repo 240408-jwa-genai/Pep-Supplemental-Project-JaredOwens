@@ -34,7 +34,10 @@ public class PlanetService {
 	}
 
 	public void deletePlanetById(int planetId) {
-		dao.deletePlanetById(planetId);
-		//print out if the planet was deleted succesfully or not.
+		boolean deleted = dao.deletePlanetById(planetId);
+		if(deleted)
+			System.out.println("Planet deleted!");
+		else
+			System.out.println("Planet could not be deleted!");
 	}
 }

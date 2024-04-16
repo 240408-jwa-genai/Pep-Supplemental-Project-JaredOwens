@@ -130,7 +130,7 @@ public class MainDriver {
                         else if (selection.equals("3")){
                             System.out.println("Enter the ID of the Planet you want to remove.");
                             int planetId = Integer.parseInt(scanner.nextLine());
-
+                            planetController.deletePlanet(planetId);
                         }
                         else if (selection.equals("q")){
                             active = false;

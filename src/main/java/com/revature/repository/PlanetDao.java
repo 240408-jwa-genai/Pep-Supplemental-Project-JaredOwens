@@ -86,14 +86,23 @@ public class PlanetDao {
 	//	- make sure of requirement for this but breaks code if you don't anyways
 	public Planet createPlanet(Planet p) {
 		try (Connection connection = ConnectionUtil.createConnection()) {
-			// craft initial sql
-			String sql = "INSERT INTO planets (name, ownerId) VALUES (?,?)";
+			String sql1 = "Select * from planets where name = ?";
+			PreparedStatement ps1 = connection.prepareStatement(sql1);
+			ps1.setString(1, p.getName());
+			ResultSet rs = ps1.executeQuery();
+			if(rs.next()) {
+				System.out.println("Planet already exists. Please select a different name.");
+				return null;
+			}
+			else {
+				String sql2 = "INSERT INTO planets (name, ownerId) VALUES (?,?)";
 //					"SELECT @name " +
 //					"WHERE NOT EXISTS (SELECT * FROM planets WHERE name = @name)";
-			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, p.getName());
-			ps.setInt(2, p.getOwnerId());
-			ps.execute();
+				PreparedStatement ps2 = connection.prepareStatement(sql2);
+				ps2.setString(1, p.getName());
+				ps2.setInt(2, p.getOwnerId());
+				ps2.execute();
+			}
 		}catch(SQLException e){
 			e.printStackTrace();
 			return null;

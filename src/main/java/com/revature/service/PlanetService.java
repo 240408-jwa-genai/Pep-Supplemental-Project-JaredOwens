@@ -29,8 +29,15 @@ public class PlanetService {
 	}
 
 	public void createPlanet(int ownerId, Planet planet) {
-		dao.createPlanet(planet);
-		System.out.println("Planet created! Details: " + planet.toString());
+		if(planet.getName().length() <= 30){
+			if(dao.createPlanet(planet) != null){
+				System.out.println(planet);
+				System.out.println("Planet created! Details: " + planet.toString());
+			}
+		}
+		else{
+			System.out.println("Planet name too long! Please only have 30 or less characters!");
+		}
 	}
 
 	public void deletePlanetById(int planetId) {

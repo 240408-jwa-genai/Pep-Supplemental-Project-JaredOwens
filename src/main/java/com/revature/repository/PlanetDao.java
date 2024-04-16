@@ -60,12 +60,21 @@ public class PlanetDao {
 			return null;
 		}
 		return null;
-		//probably change return type to void
+		//probably change return type to void OR print out the planet that was made in the service
 	}
 
 	public boolean deletePlanetById(int planetId) {
-		// TODO: implement
-		return false;
+		try(Connection connection = ConnectionUtil.createConnection()){
+			String sql = "DELETE FROM planets WHERE id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, planetId);
+			ps.execute();
+			return true;
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public static void main(String[] args) {

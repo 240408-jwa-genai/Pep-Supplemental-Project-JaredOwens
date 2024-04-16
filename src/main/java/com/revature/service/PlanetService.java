@@ -27,13 +27,14 @@ public class PlanetService {
 		return null;
 	}
 
-	public Planet createPlanet(int ownerId, Planet planet) {
+	public void createPlanet(int ownerId, Planet planet) {
 		dao.createPlanet(planet);
-		return null;
+		//TODO: Print the planet that was created
+		System.out.println("Planet created! Details: " + planet.toString());
 	}
 
-	public boolean deletePlanetById(int planetId) {
-		// TODO Auto-generated method stub
-		return false;
+	public void deletePlanetById(int planetId) {
+		dao.deletePlanetById(planetId);
+		//print out if the planet was deleted succesfully or not.
 	}
 }

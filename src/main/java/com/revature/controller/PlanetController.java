@@ -26,7 +26,6 @@ public class PlanetController {
 	}
 
 	public void createPlanet(int currentUserId, Planet planet) {
-		// TODO: implement
 		planetService.createPlanet(currentUserId, planet);
 	}
 

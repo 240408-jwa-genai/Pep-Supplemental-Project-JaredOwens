@@ -18,7 +18,6 @@ public class PlanetService {
 	}
 
 	public void getPlanetByName(int ownerId, String planetName) {
-		// TODO probably change to void and print the planet here
 		Planet planetResult = dao.getPlanetByName(ownerId, planetName);
 		System.out.println(planetResult);
 	}

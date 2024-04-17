@@ -82,8 +82,6 @@ public class PlanetDao {
 		return null;
 	}
 
-	//TODO: DO NOT ALLOW SAME NAME CREATION
-	//	- make sure of requirement for this but breaks code if you don't anyways
 	public Planet createPlanet(Planet p) {
 		try (Connection connection = ConnectionUtil.createConnection()) {
 			String sql1 = "Select * from planets where name = ?";
@@ -96,8 +94,6 @@ public class PlanetDao {
 			}
 			else {
 				String sql2 = "INSERT INTO planets (name, ownerId) VALUES (?,?) returning *";
-//					"SELECT @name " +
-//					"WHERE NOT EXISTS (SELECT * FROM planets WHERE name = @name)";
 				PreparedStatement ps2 = connection.prepareStatement(sql2);
 				ps2.setString(1, p.getName());
 				ps2.setInt(2, p.getOwnerId());

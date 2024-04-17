@@ -19,11 +19,15 @@ public class MoonDao {
 		return null;
 	}
 
-	public Moon getMoonByName(String moonName) {
+	public Moon getMoonByName(int currentUserID, String moonName) {
 		try(Connection connection = ConnectionUtil.createConnection()){
-			String sql = "SELECT * FROM moons WHERE name = ?";
+			String sql = "SELECT * FROM moons m " +
+					"JOIN planets p ON m.myPlanetId = p.id " +
+					"WHERE m.name = ? " +
+					"AND p.ownerId = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, moonName);
+			ps.setInt(2, currentUserID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				Moon moon = new Moon();
@@ -38,11 +42,15 @@ public class MoonDao {
         return null;
 	}
 
-	public Moon getMoonById(int moonId) {
+	public Moon getMoonById(int currentUserID, int moonId) {
 		try(Connection connection = ConnectionUtil.createConnection()){
-			String sql = "SELECT * FROM moons WHERE id = ?";
+			String sql = "SELECT * FROM moons m " +
+					"JOIN planets p ON m.myPlanetId = p.id " +
+					"WHERE m.id = ? " +
+					"AND p.ownerId = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, moonId);
+			ps.setInt(2, currentUserID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				Moon moon = new Moon();

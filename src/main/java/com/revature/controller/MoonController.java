@@ -17,12 +17,12 @@ public class MoonController {
 		return moonService.getAllMoons();
 	}
 
-	public void getMoonByName(int currentUserId, String name) {
-		moonService.getMoonByName(currentUserId, name);
+	public void getMoonByName(int currentUserID, String name) {
+		moonService.getMoonByName(currentUserID, name);
 	}
 
-	public void getMoonById(int currentUserId, int id) {
-		moonService.getMoonById(id);
+	public void getMoonById(int currentUserID, int id) {
+		moonService.getMoonById(currentUserID, id);
 	}
 
 	public void createMoon(int currentUserId, Moon moon) {

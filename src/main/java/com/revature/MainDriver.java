@@ -118,13 +118,9 @@ public class MainDriver {
                         String selection = "";
                         do{
                             System.out.println("\nEnter: \n" +
-                                    "1 to display Planets you have added\n" +
-                                    "2 to display a Planet by Name\n" +
-                                    "3 to display a Planet by ID\n" +
-                                    "4 to register a Planet\n" +
-                                    "5 to Remove a Planet\n" +
-                                    "6 to return to main menu\n" +
-                                    "7 to Log Out");
+                                    "1 to display Planets you have added, 2 to display a Planet by Name\n" +
+                                    "3 to display a Planet by ID, 4 to register a Planet, 5 to Remove a Planet\n" +
+                                    "6 to return to main menu, 7 to Log Out");
                             selection = scanner.nextLine();
                             if (selection.equals("1")){
                                 List<Planet> plantesRetrieved = planetController.getAllPlanets(loggedInUserId);
@@ -161,28 +157,16 @@ public class MainDriver {
                             else if (selection.equals("7")){
                                 userController.logout();
                             }
-                            //TODO: add method for grabbing moons by a planet?
-//                            else if (selection.equals("7")){
-//                                userController.logout();
-//                            }
                         }while(!selection.equals("6") && userController.checkAuthorization(loggedInUserId));
 
                     }
                     else if (userChoice.equals("2")){
                         String selection = "";
                         do{
-                            System.out.println("\nEnter: \n1 to display Moons you have added\n" +
-                                    "2 to display Moons from a specific Planet\n" +
-                                    "3 to display a Moon by Name\n" +
-                                    "4 to display a Moon by ID\n" +
-                                    "5 to register a Moon by Planet ID\n" +
-                                    "6 to remove a Moon\n" +
-                                    "7 to return to Menu\n" +
-                                    "8 to log out\n");
-                                    //+ "q to quit");
+                            System.out.println("\nEnter: \n1 to display Moons you have added, 2 to display Moons from a specific Planet\n" +
+                                    "3 to display a Moon by Name, 4 to display a Moon by ID, 5 to register a Moon by Planet ID, 6 to remove a Moon\n" +
+                                    "7 to return to Menu, 8 to log out\n");
                             selection = scanner.nextLine();
-
-                            //TODO:Figure out what condition to pull the moons on
                             if (selection.equals("1")){
                                 List<Moon> moonsRetrieved = moonController.getAllMoons(loggedInUserId);
                                 for(Moon moon : moonsRetrieved){
@@ -205,12 +189,10 @@ public class MainDriver {
                                 moonController.getMoonById(loggedInUserId, moonId);
                             }
                             else if (selection.equals("5")){
-                                //TODO: check that the planet exists in the creation!!
                                 System.out.println("Enter the name of the Moon you want to register: \n");
                                 String moonName = scanner.nextLine();
                                 System.out.println("Enter the id of the Planet for the moon being registered: \n");
                                 int moonId = Integer.parseInt(scanner.nextLine());
-                                //mocking user input for a moon -- implement into a console
                                 Moon moonToRegister = new Moon();
                                 moonToRegister.setName(moonName);
                                 moonToRegister.setMyPlanetId(moonId);
@@ -224,9 +206,6 @@ public class MainDriver {
                             else if (selection.equals("8")){
                                 userController.logout();
                             }
-//                            else if (selection.equals("q")){
-//                                active = false;
-//                            }
                         }while(!selection.equals("7") && userController.checkAuthorization(loggedInUserId));
                     }
                     else if (userChoice.equals("3")){
@@ -238,8 +217,5 @@ public class MainDriver {
                 }while(userController.checkAuthorization(loggedInUserId));
             }
         }
-    }
-    public static void workWithPlanets(){
-
     }
 }

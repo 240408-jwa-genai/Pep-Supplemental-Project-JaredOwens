@@ -14,7 +14,6 @@ public class PlanetDao {
     
     public List<Planet> getAllPlanets(int currentUserId) {
 		try (Connection connection = ConnectionUtil.createConnection()) {
-			// craft initial sql
 			String sql = "SELECT * FROM planets WHERE ownerId = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, currentUserId);
@@ -30,10 +29,9 @@ public class PlanetDao {
 			}
 			return planets;
 		}catch(SQLException e){
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
-	}
+    }
 
 	//TODO: Verify the else statement is what catches if the user is verified to see the planet
 	public Planet getPlanetByName(int ownerId, String planetName) {
@@ -51,20 +49,20 @@ public class PlanetDao {
 				return planet;
 			}
 			else{
-				System.out.println("No planet found with that name under your account");
+				return null;
 			}
 		} catch (SQLException e) {
             throw new RuntimeException(e);
         }
-		return null;
 	}
 
 	//TODO: Verify the else statement is what catches if the user is verified to see the planet
-	public Planet getPlanetById(int planetId, int id) {
+	public Planet getPlanetById(int userID, int id) {
 		try(Connection connection = ConnectionUtil.createConnection()) {
 			String sql = "SELECT * FROM planets WHERE id = ? AND ownerId = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, planetId);
+			ps.setInt(1, id);
+			ps.setInt(2, userID);
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				Planet planet = new Planet();
@@ -74,12 +72,11 @@ public class PlanetDao {
 				return planet;
 			}
 			else{
-				System.out.println("No planet found with that id under your account");
+				return null;
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		return null;
 	}
 
 	public Planet createPlanet(Planet p) {

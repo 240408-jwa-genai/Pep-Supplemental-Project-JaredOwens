@@ -14,24 +14,36 @@ public class PlanetService {
 	}
 
 	public List<Planet> getAllPlanets(int currentUserId) {
+		//TODO: check if is user is currently authorized
 		return dao.getAllPlanets(currentUserId);
 	}
 
 	public void getPlanetByName(int ownerId, String planetName) {
+		//TODO: check if is user is currently authorized
+
 		Planet planetResult = dao.getPlanetByName(ownerId, planetName);
-		System.out.println(planetResult);
+		if(planetResult != null)
+			System.out.println(planetResult);
+		else
+			System.out.println("No planet found with that name under your account.");
 	}
 
 	public void getPlanetById(int ownerId, int planetId) {
+		//TODO: check if is user is currently authorized
+
 		Planet planetResult = dao.getPlanetById(ownerId, planetId);
-		System.out.println(planetResult);
+		if(planetResult != null)
+			System.out.println(planetResult);
+		else
+			System.out.println("No planet found with that id under your account.");
 	}
 
 	public void createPlanet(int ownerId, Planet planet) {
+		//TODO: check if is user is currently authorized
+
 		if(planet.getName().length() <= 30){
 			Planet result = dao.createPlanet(planet);
 			if(result != null){
-//				System.out.println(result);
 				System.out.println("Planet created! Details: " + result.toString());
 			}
 		}

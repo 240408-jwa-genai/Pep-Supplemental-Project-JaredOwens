@@ -14,11 +14,15 @@ public class MoonService {
 		this.dao = dao;
 	}
 
-	public List<Moon> getAllMoons() {
-		return dao.getAllMoons();
+	public List<Moon> getAllMoons(int currentUserID) {
+		//TODO: check if is user is currently authorized
+
+		return dao.getAllMoons(currentUserID);
 	}
 
 	public void getMoonByName(int currentUserID, String moonName) {
+		//TODO: check if is user is currently authorized
+
 		Moon moonResult = dao.getMoonByName(currentUserID, moonName);
 		if(moonResult != null)
 			System.out.println(moonResult);
@@ -26,17 +30,25 @@ public class MoonService {
 			System.out.println("No moon found under this name for the current user.");
 	}
 
-	public void getMoonById(int currentUserID, int moonId) {
+	public boolean getMoonById(int currentUserID, int moonId) {
+		//TODO: check if is user is currently authorized
+
 		Moon moonResult = dao.getMoonById(currentUserID, moonId);
-		if(moonResult != null)
+		if (moonResult != null) {
 			System.out.println(moonResult);
-		else
+			return true;
+		}
+		else{
 			System.out.println("No moon found under this id for the current user.");
+			return false;
+		}
 	}
 
-	public void createMoon(Moon moon) {
+	public void createMoon(int currentUserID, Moon moon) {
+		//TODO: check if is user is currently authorized
+
 		if(moon.getName().length() <= 30){
-			Moon result = dao.createMoon(moon);
+			Moon result = dao.createMoon(currentUserID, moon);
 			if(result != null){
 				System.out.println("Moon created! Details: " + result.toString());
 			}
@@ -46,12 +58,28 @@ public class MoonService {
 		}
 	}
 
-	public boolean deleteMoonById(int moonId) {
+	public boolean deleteMoonById(int currentUserID, int moonId) {
+		//TODO: check if is user is currently authorized
+		boolean deleted = dao.deleteMoonById(currentUserID, moonId);
+		if(deleted)
+			System.out.println("Moon deleted!");
+		else
+			System.out.println("Moon could not be deleted!");
 		return false;
 	}
 
-	public List<Moon> getMoonsFromPlanet(int myPlanetId) {
+	public void getMoonsFromPlanet(int currentUserID, int planetId) {
+		//TODO: check if is user is currently authorized
+
 		// TODO Auto-generated method stub
-		return null;
+		List<Moon> moons = dao.getMoonsFromPlanet(currentUserID, planetId);
+		if(!moons.isEmpty()){
+			for(Moon moon : moons){
+				System.out.println(moon);
+			}
+		}
+		else{
+			System.out.println("No moons found under this Planet for the current user.");
+		}
 	}
 }

@@ -13,28 +13,33 @@ public class MoonController {
 		this.moonService = moonService;
 	}
 
-	public List<Moon> getAllMoons(int currentUserId) {
-		return moonService.getAllMoons();
+	public List<Moon> getAllMoons(int currentUserID) {
+		return moonService.getAllMoons(currentUserID);
 	}
 
 	public void getMoonByName(int currentUserID, String name) {
 		moonService.getMoonByName(currentUserID, name);
 	}
 
-	public void getMoonById(int currentUserID, int id) {
-		moonService.getMoonById(currentUserID, id);
+	public boolean getMoonById(int currentUserID, int id) {
+		return moonService.getMoonById(currentUserID, id);
 	}
 
-	public void createMoon(int currentUserId, Moon moon) {
+	public void createMoon(int currentUserID, Moon moon) {
 		//TODO: Check if need currentUserId
-		moonService.createMoon(moon);
+
+		moonService.createMoon(currentUserID, moon);
 	}
 
-	public void deleteMoon(int id) {
-		// TODO: implement
+	public void deleteMoon(int currentUserID, int id) {
+		if(getMoonById(currentUserID, id)){
+			moonService.deleteMoonById(currentUserID, id);
+		}
+		//moonService.checkMoonOwnership(..)
+		//calls db to check that persons moons then if exists can delete
 	}
 	
-	public void getPlanetMoons(int myPlanetId) {
-		// TODO: implement
+	public void getPlanetMoons(int currentUserID, int planetId) {
+		moonService.getMoonsFromPlanet(currentUserID, planetId);
 	}
 }

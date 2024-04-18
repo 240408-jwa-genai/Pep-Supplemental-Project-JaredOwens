@@ -45,9 +45,9 @@ public class MainDriver {
              */
             boolean logInScreen = true;
             boolean loggedIn = false;
+            System.out.println("\nHello! Welcome to the Planetarium!\n");
             do {
-                System.out.println("\n\nHello! Welcome to the Planetarium!\n" +
-                        "\nEnter 1 to register an account, 2 to log in, q to quit");
+                System.out.println("Enter 1 to register an account, 2 to log in, q to quit");
                 String userChoice = scanner.nextLine();
                 if (userChoice.equals("1")){
                     // remind the user of the choice they made
@@ -94,7 +94,6 @@ public class MainDriver {
                         logInScreen = false;
                         loggedIn = true;
                         loggedInUserId = userId;
-                        //System.out.println("User ID is: " + loggedInUserId);
                     }
                 } else if (userChoice.equals("q")) {
                     System.out.println("Goodbye!");
@@ -104,7 +103,6 @@ public class MainDriver {
                 }
             } while (logInScreen);
             if(loggedIn){
-                boolean active = true;
                 PlanetDao planetDao = new PlanetDao();
                 PlanetService planetService = new PlanetService(planetDao);
                 PlanetController planetController = new PlanetController(planetService);
@@ -114,105 +112,134 @@ public class MainDriver {
                 MoonController moonController = new MoonController(moonService);
 
                 do {
-                    System.out.println("\nEnter 1 to work with Planets, 2 to work with Moons q to quit");
+                    System.out.println("\nEnter 1 to work with Planets, 2 to work with Moons 3 to log out");
                     String userChoice = scanner.nextLine();
                     if (userChoice.equals("1")){
-                        System.out.println("\nEnter: \n" +
-                                "1 to display Planets you have added\n" +
-                                "2 to display a Planet by Name\n" +
-                                "3 to display a Planet by ID\n" +
-                                "4 to register a Planet\n" +
-                                "5 to Remove a Planet\n" +
-                                "q to quit");
-                        String selection = scanner.nextLine();
-                        if (selection.equals("1")){
-                            List<Planet> plantesRetrieved = planetController.getAllPlanets(loggedInUserId);
-                            for(Planet planet : plantesRetrieved){
-                                System.out.println(planet);
+                        String selection = "";
+                        do{
+                            System.out.println("\nEnter: \n" +
+                                    "1 to display Planets you have added\n" +
+                                    "2 to display a Planet by Name\n" +
+                                    "3 to display a Planet by ID\n" +
+                                    "4 to register a Planet\n" +
+                                    "5 to Remove a Planet\n" +
+                                    "6 to return to main menu\n" +
+                                    "7 to Log Out");
+                            selection = scanner.nextLine();
+                            if (selection.equals("1")){
+                                List<Planet> plantesRetrieved = planetController.getAllPlanets(loggedInUserId);
+                                for(Planet planet : plantesRetrieved){
+                                    System.out.println(planet);
+                                }
                             }
-                        }
-                        else if(selection.equals("2")){
-                            System.out.println("Enter the name of the Planet you want to display.");
-                            String planetName = scanner.nextLine();
-                            planetController.getPlanetByName(loggedInUserId, planetName);
-                        }
-                        else if(selection.equals("3")){
-                            System.out.println("Enter the id of the Planet you want to display.");
-                            int planetId = Integer.parseInt(scanner.nextLine());
-                            planetController.getPlanetByID(loggedInUserId, planetId);
-                        }
-                        else if (selection.equals("4")){
-                            //register a Planet
-                            System.out.println("REPLACE THIS WITH USER INPUT");
-                            //TODO:
-                            //mocking user input for a planet -- implement into a console
-                            Planet planetToRegister = new Planet();
-                            planetToRegister.setName("Test Planet 8");
-                            planetToRegister.setOwnerId(loggedInUserId);
-                            planetController.createPlanet(loggedInUserId, planetToRegister);
-                        }
-                        else if (selection.equals("5")){
-                            System.out.println("Enter the ID of the Planet you want to remove.");
-                            int planetId = Integer.parseInt(scanner.nextLine());
-                            planetController.deletePlanet(planetId);
-                        }
-                        //TODO: add method for grabbing moons by a planet
-                        else if (selection.equals("q")){
-                            active = false;
-                        }
+                            else if(selection.equals("2")){
+                                System.out.println("Enter the name of the Planet you want to display.");
+                                String planetName = scanner.nextLine();
+                                planetController.getPlanetByName(loggedInUserId, planetName);
+                            }
+                            else if(selection.equals("3")){
+                                System.out.println("Enter the id of the Planet you want to display.");
+                                int planetId = Integer.parseInt(scanner.nextLine());
+                                planetController.getPlanetByID(loggedInUserId, planetId);
+                            }
+                            else if (selection.equals("4")){
+                                System.out.println("Enter the name of the Planet you want to register: \n");
+                                String planetName = scanner.nextLine();
+                                Planet planetToRegister = new Planet();
+                                planetToRegister.setName(planetName);
+                                planetToRegister.setOwnerId(loggedInUserId);
+                                planetController.createPlanet(loggedInUserId, planetToRegister);
+                            }
+                            else if (selection.equals("5")){
+                                System.out.println("Enter the ID of the Planet you want to remove.");
+                                int planetId = Integer.parseInt(scanner.nextLine());
+                                planetController.deletePlanet(planetId);
+                            }
+                            else if (selection.equals("6")){
+
+                            }
+                            else if (selection.equals("7")){
+                                userController.logout();
+                            }
+                            //TODO: add method for grabbing moons by a planet?
+//                            else if (selection.equals("7")){
+//                                userController.logout();
+//                            }
+                        }while(!selection.equals("6") && userController.checkAuthorization(loggedInUserId));
+
                     }
                     else if (userChoice.equals("2")){
-                        System.out.println("\nEnter: \n1 to display Moons you have added\n" +
-                                "2 to display a Moon by Name\n" +
-                                "3 to display a Moon by ID\n" +
-                                "4 to register a Moon by Planet ID\n" +
-                                "5 to Remove a Moon\n" +
-                                "q to quit");
-                        String selection = scanner.nextLine();
+                        String selection = "";
+                        do{
+                            System.out.println("\nEnter: \n1 to display Moons you have added\n" +
+                                    "2 to display Moons from a specific Planet\n" +
+                                    "3 to display a Moon by Name\n" +
+                                    "4 to display a Moon by ID\n" +
+                                    "5 to register a Moon by Planet ID\n" +
+                                    "6 to remove a Moon\n" +
+                                    "7 to return to Menu\n" +
+                                    "8 to log out\n");
+                                    //+ "q to quit");
+                            selection = scanner.nextLine();
 
-                        //TODO:Figure out what condition to pull the moons on
-                        if (selection.equals("1")){
-                            List<Moon> moonsRetrieved = moonController.getAllMoons(loggedInUserId);
-                            for(Moon moon : moonsRetrieved){
-                                System.out.println(moon);
+                            //TODO:Figure out what condition to pull the moons on
+                            if (selection.equals("1")){
+                                List<Moon> moonsRetrieved = moonController.getAllMoons(loggedInUserId);
+                                for(Moon moon : moonsRetrieved){
+                                    System.out.println(moon);
+                                }
                             }
-                        }
-                        else if(selection.equals("2")){
-                            System.out.println("Enter the name of the Moon you want to display.");
-                            String moonName = scanner.nextLine();
-                            moonController.getMoonByName(loggedInUserId, moonName);
-                        }
-                        else if(selection.equals("3")){
-                            System.out.println("Enter the id of the Moon you want to display.");
-                            int moonId = Integer.parseInt(scanner.nextLine());
-                            moonController.getMoonById(loggedInUserId, moonId);
-                        }
-                        else if (selection.equals("4")){
-                            System.out.println("REPLACE THIS WITH USER INPUT");
-                            //TODO:
-                            //mocking user input for a moon -- implement into a console
-                            Moon moonToRegister = new Moon();
-                            moonToRegister.setName("Test Moon 2");
-                            moonToRegister.setMyPlanetId(12);
-                            moonController.createMoon(loggedInUserId, moonToRegister);
-                        }
-                        else if (selection.equals("5")){
-                            System.out.println("Enter the ID of the Moon you want to remove.");
-                            int moonId = Integer.parseInt(scanner.nextLine());
-                            moonController.deleteMoon(moonId);
-                        }
-                        else if (selection.equals("q")){
-                            active = false;
-                        }
+                            else if(selection.equals("2")){
+                                System.out.println("Enter the id of the Planet for the moons you want to display.");
+                                int planetId = Integer.parseInt(scanner.nextLine());
+                                moonController.getPlanetMoons(loggedInUserId, planetId);
+                            }
+                            else if(selection.equals("3")){
+                                System.out.println("Enter the name of the Moon you want to display.");
+                                String moonName = scanner.nextLine();
+                                moonController.getMoonByName(loggedInUserId, moonName);
+                            }
+                            else if(selection.equals("4")){
+                                System.out.println("Enter the id of the Moon you want to display.");
+                                int moonId = Integer.parseInt(scanner.nextLine());
+                                moonController.getMoonById(loggedInUserId, moonId);
+                            }
+                            else if (selection.equals("5")){
+                                //TODO: check that the planet exists in the creation!!
+                                System.out.println("Enter the name of the Moon you want to register: \n");
+                                String moonName = scanner.nextLine();
+                                System.out.println("Enter the id of the Planet for the moon being registered: \n");
+                                int moonId = Integer.parseInt(scanner.nextLine());
+                                //mocking user input for a moon -- implement into a console
+                                Moon moonToRegister = new Moon();
+                                moonToRegister.setName(moonName);
+                                moonToRegister.setMyPlanetId(moonId);
+                                moonController.createMoon(loggedInUserId, moonToRegister);
+                            }
+                            else if (selection.equals("6")){
+                                System.out.println("Enter the ID of the Moon you want to remove.");
+                                int moonId = Integer.parseInt(scanner.nextLine());
+                                moonController.deleteMoon(loggedInUserId, moonId);
+                            }
+                            else if (selection.equals("8")){
+                                userController.logout();
+                            }
+//                            else if (selection.equals("q")){
+//                                active = false;
+//                            }
+                        }while(!selection.equals("7") && userController.checkAuthorization(loggedInUserId));
                     }
-                    else if (userChoice.equals("q")){
-                        active = false;
+                    else if (userChoice.equals("3")){
+                        userController.logout();
                     }
                     else {
                         System.out.println("Invalid choice, please try again");
                     }
-                }while(active);
+                }while(userController.checkAuthorization(loggedInUserId));
             }
         }
+    }
+    public static void workWithPlanets(){
+
     }
 }
